@@ -11,7 +11,15 @@ const rl = readline.createInterface({
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
 
-var dotminecraft = path.join(process.env.APPDATA, '/.minecraft');
+var dotminecraft;
+// https://minecraft.gamepedia.com/.minecraft#Locating_.minecraft
+if (process.platform == 'win32') {
+    dotminecraft = path.join(process.env.APPDATA, '/.minecraft'); // windows
+} else if (process.platform == 'darwin') {
+    dotminecraft = path.join(process.env.HOME, '/Library/Application Support/minecraft'); // mac
+} else {
+    dotminecraft = path.join(process.env.HOME, '/.minecraft'); // linux
+}
 
 if (fs.existsSync(dotminecraft)) {
 
